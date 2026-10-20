@@ -1,0 +1,136 @@
+<html><head>
+<title>VOR/DME Navigation</title>
+<STYLE TYPE="text/css">
+.yellowbutton
+  {
+    background : #FFE071;
+    padding : 0.05em 0.3em 0.05em;
+    border : 1pt solid black;
+    font-weight : bold;
+    font-size: 0.8em;
+  }
+
+.brownbutton
+  {
+    background : #63452B;
+    padding : 0.05em 0.3em 0.05em;
+    border : 1pt solid black;
+    font-weight : bold;
+    color : #F0EDD5;
+    font-size: 0.8em;
+  }
+
+.whitebutton
+  {
+    background : #E0DDC5;
+    padding : 0.05em 0.3em 0.05em;
+    border : 1pt solid black;
+    font-weight : bold;
+    color : #222424;
+    font-size: 0.8em;
+  }
+
+.alttext
+  {
+    background : #000000;
+    padding : 0.05em 0.3em 0.05em;
+    border : 1pt solid black;
+    font-weight : bold;
+    color : #dcb151;
+    font-size: 0.8em;
+  }
+
+.deflist DT
+  {
+    display : compact;
+    font-weight : bold;
+  }
+.deflist DD
+  {
+    margin-left : 4em;
+  }
+
+.display
+ {
+    color : red;
+    font-weight : bold;
+    font-family: courier bold;
+    text-align : right;
+    margin-right : 2em;
+ }
+.displayb
+ {
+    padding: 0em 0.5em 0em;
+    color: red;
+    background: #eeeeee;
+    font-weight: bold;
+    font-family: courier bold;
+    font-size: 1.1em;
+ }
+</STYLE>
+</head>
+<body>
+<h1>SB-11 &ndash; VOR/DME Navigation</h1>
+<p>Copyright &copy; 2026 by Steffen Beyer, with substantial help from ChatGPT as assistant, advisor/instructor, co-developer, debugger, compiler, assembler, linker and documenter.</p>
+<p>Version 1.0.4.</p>
+<p>License: GNU General Public License (GPL) or GNU Lesser General Public License (LGPL), version at your discretion (as usual), as stated in the program source.</p>
+<h3>Description:</h3>
+<p>Calculate an aircraft's current geographical latitude and longitude (sometimes also called a fix) from the known position of a VOR/DME station, the station's magnetic declination, the aircraft's magnetic radial FROM that station, and its DME distance. Optionally, enter the aircraft's height above the station to correct the DME slant range to horizontal distance.</p>
+<h3>Operating conditions:</h3>
+<ul>
+<li>The calculator must use DEG mode, not RAD or GRAD. The initialization functions D, D' and E' enforce DEG mode.</li>
+<li>Southern latitudes and western longitudes are negative.</li>
+<li>Magnetic declination is positive east and negative west.</li>
+<li>Distances are entered in nautical miles and height differences in feet.</li>
+<li>Enter the magnetic radial <b>FROM</b> the station, not merely the OBS course selected on the receiver (unless the CDI is centered with a FROM indication).</li>
+<li>Before first use, press <span class="yellowbutton">2nd</span> <span class="alttext">E&#x27;</span> to initialize the program.</li>
+</ul>
+<h3>Usage:</h3>
+<p>To initialize for a new VOR/DME station, press <span class="yellowbutton">2nd</span> <span class="alttext">E&#x27;</span>. Enter the station data, followed by the aircraft's radial, DME distance and optionally height:</p>
+<table border="0" cellspacing="5"><tr><th>Key</th><th>Input / output</th><th>Format</th></tr>
+<tr><td><span class="yellowbutton">2nd</span> <span class="alttext">A&#x27;</span></td><td>VOR/DME station latitude</td><td>DDDMM.mmmmm</td></tr>
+<tr><td><span class="yellowbutton">2nd</span> <span class="alttext">B&#x27;</span></td><td>VOR/DME station longitude</td><td>DDDMM.mmmmm</td></tr>
+<tr><td><span class="yellowbutton">2nd</span> <span class="alttext">C&#x27;</span></td><td>Station magnetic declination</td><td>DDD.ddddddd</td></tr>
+<tr><td><span class="brownbutton">A</span></td><td>Magnetic radial FROM the VOR</td><td>DDD.ddddddd</td></tr>
+<tr><td><span class="brownbutton">B</span></td><td>DME slant range</td><td>nautical miles</td></tr>
+<tr><td><span class="brownbutton">C</span></td><td>Height above the VOR/DME station (optional)</td><td>feet</td></tr>
+</table>
+<p>Press E to calculate. The aircraft latitude appears on the display; its longitude is placed in the test register <b>t</b>. After calculation, A', B', C', A, B and C retrieve their stored values instead of accepting new ones.</p>
+<p>To change the radial, DME or height without clearing their current values, press <span class="brownbutton">D</span>; then enter only the values you want to change. To clear all three position inputs, press <span class="yellowbutton">2nd</span> <span class="alttext">D&#x27;</span>. To change to a different VOR/DME station and clear all station and position inputs, press <span class="yellowbutton">2nd</span> <span class="alttext">E&#x27;</span>.</p>
+<h3>Function keys:</h3>
+<ul>
+<li><span class="yellowbutton">2nd</span> <span class="alttext">A&#x27;</span> — enter or retrieve vor/dme station latitude.</li>
+<li><span class="yellowbutton">2nd</span> <span class="alttext">B&#x27;</span> — enter or retrieve vor/dme station longitude.</li>
+<li><span class="yellowbutton">2nd</span> <span class="alttext">C&#x27;</span> — enter or retrieve station magnetic declination.</li>
+<li><span class="brownbutton">A</span> — enter or retrieve magnetic radial from the vor.</li>
+<li><span class="brownbutton">B</span> — enter or retrieve dme slant range.</li>
+<li><span class="brownbutton">C</span> — enter or retrieve height above the vor/dme station (optional).</li>
+<li><span class="brownbutton">D</span> — Switch A, B and C to input mode without changing their stored values.</li>
+<li><span class="yellowbutton">2nd</span> <span class="alttext">D&#x27;</span> — Clear radial, DME and height; switch A, B and C to input mode.</li>
+<li><span class="yellowbutton">2nd</span> <span class="alttext">E&#x27;</span> — Clear all station and position inputs; switch all six input/output keys to input mode.</li>
+<li><span class="brownbutton">E</span> — Calculate aircraft position; switch all six input/output keys to output mode.</li>
+</ul>
+<h3>Output:</h3>
+<ul><li>Display (x): aircraft latitude, DDDMM.mmmmm.</li><li>Test register t: aircraft longitude, DDDMM.mmmmm.</li><li>Register 07: aircraft latitude, DDD.ddddddd.</li><li>Register 08: aircraft longitude, DDD.ddddddd.</li><li>Register 09: corrected true radial, DDD.ddddddd.</li></ul>
+<h3>Coordinate conversion functions:</h3>
+<p><code>SBR .</code> converts DDDMM.mmmmm to decimal degrees DDD.ddddddd. <code>SBR +/-</code> converts decimal degrees DDD.ddddddd to cockpit format DDDMM.mmmmm. Both return the result in the display and register 00.</p>
+<h3>Good to know:</h3>
+<p>The program does not interrupt ongoing calculations. Its user-defined functions do not use <span class="yellowbutton">CLR</span> or <span class="yellowbutton">=</span> internally, so stored arithmetic operations are not prematurely cleared or evaluated.</p>
+<p>The program uses a planar approximation to calculate latitude and longitude differences. If the optional height is supplied, it first converts the DME slant range to horizontal distance.</p>
+<h3>Registers used:</h3>
+<table border="0" cellspacing="5"><tr><th>Register</th><th>Purpose</th></tr>
+<tr><td>00</td><td>Coordinate conversion result.</td></tr>
+<tr><td>01</td><td>VOR latitude (DDDMM.mmmmm).</td></tr>
+<tr><td>02</td><td>VOR longitude (DDDMM.mmmmm).</td></tr>
+<tr><td>03</td><td>VOR magnetic declination (DDD.ddddddd).</td></tr>
+<tr><td>04</td><td>Magnetic radial (DDD.ddddddd).</td></tr>
+<tr><td>05</td><td>DME distance (nautical miles).</td></tr>
+<tr><td>06</td><td>Height above VOR/DME station (feet).</td></tr>
+<tr><td>07</td><td>Aircraft latitude in decimal degrees; also intermediate latitude difference.</td></tr>
+<tr><td>08</td><td>Aircraft longitude in decimal degrees; also intermediate longitude difference.</td></tr>
+<tr><td>09</td><td>Corrected radial (magnetic to true).</td></tr>
+<tr><td>10</td><td>Scratchpad for coordinate conversions.</td></tr>
+<tr><td>t</td><td>Aircraft longitude in cockpit format after calculation; also used internally.</td></tr>
+<tr><td>Flags 0 and 1</td><td>Input/output mode controls: flag 0 for station data, flag 1 for radial, DME and height.</td></tr>
+</table>
+</body></html>
