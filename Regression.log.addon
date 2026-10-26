@@ -1,0 +1,58 @@
+Lbl Pause
+Pause
+Prt
+-
+INV Prt
+Pause
+Prt
+=
+Pause
+Prt
+INV SBR
+Lbl =
+E'
+INV Prt
+A'
+INV Prt
+B'
+INV Prt
+C'
+INV Prt
+A
+INV Prt
+B
+INV Prt
+C
+E
+RCL 07
+SBR Pause
+RCL 08
+SBR Pause
+RCL 09
+SBR Pause
+E
+SBR Pause
+x<>t
+SBR Pause
+INV SBR
+Lbl CLR
+STO 97
+CLR
+STO 99
+110011
+INV Op 96
+101010101
+STO 98
+Lbl |x|
+RCL 98
+SUM 99
+RCL 99
+Pause
+Pause
+Pause
+Prt
+SBR =
+Dsz 97 |x|
+CLR
+INV RST
+INV SBR
